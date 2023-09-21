@@ -18,12 +18,18 @@ module Metabase
           sql:,
           database_id:,
         },
+        headers: {
+          "Authorization" => "Bearer #{auth_token}"
+        },
       )
       if sql.include?("GROUP BY user_id")
         HTTParty.put(
           "https://metabase.com/cards/#{response.parsed_response["id"]}",
           body: {
             visualization: "bar"
+          },
+          headers: {
+            "Authorization" => "Bearer #{auth_token}"
           },
         )
       end
