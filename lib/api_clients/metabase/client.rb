@@ -26,13 +26,15 @@ module Metabase
     end
 
     def create_card(params)
-      HTTParty.post(
+      response = HTTParty.post(
         "https://metabase.com/cards",
         body: params,
         headers: {
           "Authorization" => "Bearer #{auth_token}"
         }
       )
+      data = response.parsed_response
+      "Resources::#{data["type"].camelize}Card".constantize.new(data)
     end
   end
 end
